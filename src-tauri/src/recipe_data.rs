@@ -30,7 +30,7 @@ pub struct Recipe {
     #[serde(rename = "recipePublishday")]
     _recipe_publishday: String,
     #[serde(rename = "recipeTitle")]
-    pub title: String,
+    _title: String,
     #[serde(rename = "recipeUrl")]
     _recipe_url: String,
     #[serde(rename = "shop")]
