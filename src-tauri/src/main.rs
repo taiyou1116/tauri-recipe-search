@@ -5,9 +5,12 @@ mod commands;
 mod config;
 mod recipe_data;
 
-fn main() {
+#[tokio::main]
+async fn main() -> Result<(), reqwest::Error> {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![commands::send_recipe_data])
+        .invoke_handler(tauri::generate_handler![commands::get_recipe_data])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+
+    Ok(())
 }

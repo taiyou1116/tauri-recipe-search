@@ -12,12 +12,12 @@ export default function App() {
       <NavigationbarComponent />
       <button onClick={() => onGetRecipeData()}/>
 
-      { recipeList.map((recipe) => (
+      {/* { recipeList.map((recipe) => (
         <div>
           <p> { recipe.recipeTitle } </p>
           <img src={recipe.foodImageUrl} alt="foodImage" />
         </div>
-      ))}
+      ))} */}
     </div>
   )
 }
