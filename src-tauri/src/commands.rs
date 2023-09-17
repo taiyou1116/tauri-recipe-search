@@ -10,8 +10,8 @@ fn filter_fish_categories<T: HasNameAndUrl>(categories: &[T]) -> Vec<Category> {
         .iter()
         .filter(|c| c.category_name().contains("魚"))
         .map(|c| Category {
-            categoryId: get_id_from_url(c.category_url()),
-            categoryName: c.category_name().to_string(),
+            category_id: get_id_from_url(c.category_url()),
+            category_name: c.category_name().to_string(),
         })
         .collect()
 }
@@ -47,7 +47,7 @@ pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
     let mut recipes: Vec<Recipe> = Vec::new();
 
     for category in categories {
-        let recipe_url = format!("{}{}", config.recipe_url, category.categoryId);
+        let recipe_url = format!("{}{}", config.recipe_url, category.category_id);
         let response: ApiResponseOfRecipe = reqwest::get(&recipe_url)
             .await
             .map_err(|e| e.to_string())?

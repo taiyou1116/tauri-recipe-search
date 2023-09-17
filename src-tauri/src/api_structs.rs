@@ -20,56 +20,69 @@ pub struct ResultCategory {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct LargeCategory {
-    categoryId: String,
-    pub categoryName: String,
-    pub categoryUrl: String,
+    #[serde(rename = "categoryId")]
+    category_id: String,
+    #[serde(rename = "categoryName")]
+    pub category_name: String,
+    #[serde(rename = "categoryUrl")]
+    pub category_url: String,
 }
 impl HasNameAndUrl for LargeCategory {
     fn category_name(&self) -> &str {
-        &self.categoryName
+        &self.category_name
     }
     fn category_url(&self) -> &str {
-        &self.categoryUrl
+        &self.category_url
     }
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct MediumCategory {
-    categoryId: i16,
-    pub categoryName: String,
-    pub categoryUrl: String,
-    parentCategoryId: String,
+    #[serde(rename = "categoryId")]
+    category_id: i16,
+    #[serde(rename = "categoryName")]
+    pub category_name: String,
+    #[serde(rename = "categoryUrl")]
+    pub category_url: String,
+    #[serde(rename = "parentCategoryId")]
+    _parent_category_id: String,
 }
 impl HasNameAndUrl for MediumCategory {
     fn category_name(&self) -> &str {
-        &self.categoryName
+        &self.category_name
     }
     fn category_url(&self) -> &str {
-        &self.categoryUrl
+        &self.category_url
     }
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SmallCategory {
-    categoryId: i16,
-    pub categoryName: String,
-    pub categoryUrl: String,
-    parentCategoryId: String,
+    #[serde(rename = "categoryId")]
+    category_id: i16,
+    #[serde(rename = "categoryName")]
+    pub category_name: String,
+    #[serde(rename = "categoryUrl")]
+    pub category_url: String,
+    #[serde(rename = "parentCategoryId")]
+    _parent_category_id: String,
 }
 impl HasNameAndUrl for SmallCategory {
     fn category_name(&self) -> &str {
-        &self.categoryName
+        &self.category_name
     }
     fn category_url(&self) -> &str {
-        &self.categoryUrl
+        &self.category_url
     }
 }
 
 //　3つのカテゴリ(Large, Medium, Small)を一つに統合
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Category {
-    pub categoryId: String,
-    pub categoryName: String,
+    #[serde(rename = "categoryId")]
+    pub category_id: String,
+    #[serde(rename = "categoryName")]
+    pub category_name: String,
 }
 
 // 人気料理上位4品を受け取る
@@ -80,19 +93,30 @@ pub struct ApiResponseOfRecipe {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Recipe {
-    foodImageUrl: String,
-    mediumImageUrl: String,
+    #[serde(rename = "foodImageUrl")]
+    food_image_url: String,
+    #[serde(rename = "mediumImageUrl")]
+    medium_image_url: String,
     nickname: String,
     pickup: i8,
     rank: String,
-    recipeCost: String,
-    recipeDescription: String,
-    recipeId: i32,
-    recipeIndication: String,
-    recipeMaterial: Vec<String>,
-    recipePublishday: String,
-    recipeTitle: String,
-    recipeUrl: String,
+    #[serde(rename = "recipeCost")]
+    recipe_cost: String,
+    #[serde(rename = "recipeDescription")]
+    recipe_description: String,
+    #[serde(rename = "recipeId")]
+    recipe_id: i32,
+    #[serde(rename = "recipeIndication")]
+    recipe_indication: String,
+    #[serde(rename = "recipeMaterial")]
+    recipe_material: Vec<String>,
+    #[serde(rename = "recipePublishday")]
+    recipe_publishday: String,
+    #[serde(rename = "recipeTitle")]
+    recipe_title: String,
+    #[serde(rename = "recipeUrl")]
+    recipe_url: String,
     shop: i8,
-    smallImageUrl: String,
+    #[serde(rename = "smallImageUrl")]
+    small_image_url: String,
 }
