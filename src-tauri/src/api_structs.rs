@@ -1,5 +1,10 @@
 use serde::{Deserialize, Serialize};
 
+pub trait HasNameAndUrl {
+    fn category_name(&self) -> &str;
+    fn category_url(&self) -> &str;
+}
+
 // カテゴリを受け取る
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ApiResponseOfCategory {
@@ -19,6 +24,14 @@ pub struct LargeCategory {
     pub categoryName: String,
     pub categoryUrl: String,
 }
+impl HasNameAndUrl for LargeCategory {
+    fn category_name(&self) -> &str {
+        &self.categoryName
+    }
+    fn category_url(&self) -> &str {
+        &self.categoryUrl
+    }
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct MediumCategory {
@@ -27,6 +40,14 @@ pub struct MediumCategory {
     pub categoryUrl: String,
     parentCategoryId: String,
 }
+impl HasNameAndUrl for MediumCategory {
+    fn category_name(&self) -> &str {
+        &self.categoryName
+    }
+    fn category_url(&self) -> &str {
+        &self.categoryUrl
+    }
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SmallCategory {
@@ -34,6 +55,14 @@ pub struct SmallCategory {
     pub categoryName: String,
     pub categoryUrl: String,
     parentCategoryId: String,
+}
+impl HasNameAndUrl for SmallCategory {
+    fn category_name(&self) -> &str {
+        &self.categoryName
+    }
+    fn category_url(&self) -> &str {
+        &self.categoryUrl
+    }
 }
 
 //　3つのカテゴリ(Large, Medium, Small)を一つに統合

@@ -1,9 +1,34 @@
 use crate::{
-    api_modul::{self, ApiResponseOfRecipe},
+    api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl, Recipe},
     config,
 };
-use api_modul::{ApiResponseOfCategory, Category, Recipe};
 use tokio::time::{sleep, Duration};
+
+// カテゴリーから魚カテゴリーをフィルタリングする
+fn filter_fish_categories<T: HasNameAndUrl>(categories: &[T]) -> Vec<Category> {
+    categories
+        .iter()
+        .filter(|c| c.category_name().contains("魚"))
+        .map(|c| Category {
+            categoryId: get_id_from_url(c.category_url()),
+            categoryName: c.category_name().to_string(),
+        })
+        .collect()
+}
+
+// categoryUrlからcategoryIdを作成
+fn get_id_from_url(url: &str) -> String {
+    url.rsplit('/').nth(1).unwrap_or_default().to_string()
+}
+
+// ApiResponceOfCategoryからCategoryへの変換
+fn extract_categories_from_responce(responce: &ApiResponseOfCategory) -> Vec<Category> {
+    let mut categories = Vec::new();
+    categories.extend(filter_fish_categories(&responce.result.large));
+    categories.extend(filter_fish_categories(&responce.result.medium));
+    categories.extend(filter_fish_categories(&responce.result.small));
+    categories
+}
 
 #[tauri::command(async)]
 pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
@@ -17,32 +42,7 @@ pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
 
     // キーワードにあったものだけを新しいCategory構造体に格納
 
-    let mut categories: Vec<Category> = Vec::new();
-
-    for large in &response.result.large {
-        if large.categoryName.contains("魚") {
-            categories.push(Category {
-                categoryId: get_id_from_url(&large.categoryUrl),
-                categoryName: large.categoryName.clone(),
-            });
-        }
-    }
-    for medium in &response.result.medium {
-        if medium.categoryName.contains("魚") {
-            categories.push(Category {
-                categoryId: get_id_from_url(&medium.categoryUrl),
-                categoryName: medium.categoryName.clone(),
-            });
-        }
-    }
-    for small in &response.result.small {
-        if small.categoryName.contains("魚") {
-            categories.push(Category {
-                categoryId: get_id_from_url(&small.categoryUrl),
-                categoryName: small.categoryName.clone(),
-            });
-        }
-    }
+    let categories = extract_categories_from_responce(&response);
 
     let mut recipes: Vec<Recipe> = Vec::new();
 
@@ -61,9 +61,4 @@ pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
     }
 
     Ok(recipes)
-}
-
-// categoryUrlからcategoryIdを作成
-fn get_id_from_url(url: &str) -> String {
-    url.rsplit('/').nth(1).unwrap_or_default().to_string()
 }
