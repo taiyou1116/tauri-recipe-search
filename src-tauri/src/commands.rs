@@ -1,18 +1,21 @@
-use crate::{config, recipe_data};
-use recipe_data::{ApiResponse, Category};
+use crate::{
+    api_modul::{self, ApiResponseOfRecipe},
+    config,
+};
+use api_modul::{ApiResponseOfCategory, Category, Recipe};
+use tokio::time::{sleep, Duration};
 
 #[tauri::command(async)]
-pub async fn get_category_data() -> Result<Vec<Category>, String> {
+pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
     let config = config::Config::new();
-    let response: ApiResponse = reqwest::get(config.url)
+    let response: ApiResponseOfCategory = reqwest::get(&config.category_url)
         .await
         .map_err(|e| e.to_string())?
         .json()
         .await
         .map_err(|e| e.to_string())?;
 
-    // ここまでで全てのCategoryのデータを取得
-    // そこからキーワードにあったものだけを新しいCategory構造体に格納
+    // キーワードにあったものだけを新しいCategory構造体に格納
 
     let mut categories: Vec<Category> = Vec::new();
 
@@ -41,7 +44,24 @@ pub async fn get_category_data() -> Result<Vec<Category>, String> {
         }
     }
 
-    Ok(categories)
+    let mut recipes: Vec<Recipe> = Vec::new();
+
+    // 原因categories...21, for...1
+    for category in categories {
+        let recipe_url = format!("{}{}", config.recipe_url, category.categoryId);
+        let response: ApiResponseOfRecipe = reqwest::get(&recipe_url)
+            .await
+            .map_err(|e| e.to_string())?
+            .json()
+            .await
+            .map_err(|e| e.to_string())?;
+
+        recipes.extend(response.result);
+        // 1秒待機
+        sleep(Duration::from_secs(1)).await;
+    }
+
+    Ok(recipes)
 }
 
 fn get_id_from_url(url: &str) -> String {

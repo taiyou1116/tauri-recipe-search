@@ -1,4 +1,4 @@
-import { Recipe } from "../types/Recipe";
+import { Recipe } from "./Recipe";
 
 export type State = {
     recipeList: Recipe[];
