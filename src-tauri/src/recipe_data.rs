@@ -15,22 +15,28 @@ pub struct ResultData {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct LargeCategory {
     categoryId: String,
-    categoryName: String,
-    categoryUrl: String,
+    pub categoryName: String,
+    pub categoryUrl: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct MediumCategory {
     categoryId: i16,
-    categoryName: String,
-    categoryUrl: String,
+    pub categoryName: String,
+    pub categoryUrl: String,
     parentCategoryId: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SmallCategory {
     categoryId: i16,
-    categoryName: String,
-    categoryUrl: String,
+    pub categoryName: String,
+    pub categoryUrl: String,
     parentCategoryId: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Category {
+    pub categoryId: String,
+    pub categoryName: String,
 }
