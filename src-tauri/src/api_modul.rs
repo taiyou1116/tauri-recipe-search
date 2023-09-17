@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+// カテゴリを受け取る
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ApiResponseOfCategory {
     pub result: ResultCategory,
@@ -35,12 +36,14 @@ pub struct SmallCategory {
     parentCategoryId: String,
 }
 
+//　3つのカテゴリ(Large, Medium, Small)を一つに統合
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Category {
     pub categoryId: String,
     pub categoryName: String,
 }
 
+// 人気料理上位4品を受け取る
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ApiResponseOfRecipe {
     pub result: Vec<Recipe>,
@@ -48,19 +51,19 @@ pub struct ApiResponseOfRecipe {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Recipe {
-    pub foodImageUrl: String,
-    pub mediumImageUrl: String,
-    pub nickname: String,
-    pub pickup: i8,
-    pub rank: String,
-    pub recipeCost: String,
-    pub recipeDescription: String,
-    pub recipeId: i32,
-    pub recipeIndication: String,
-    pub recipeMaterial: Vec<String>,
-    pub recipePublishday: String,
-    pub recipeTitle: String,
-    pub recipeUrl: String,
-    pub shop: i8,
-    pub smallImageUrl: String,
+    foodImageUrl: String,
+    mediumImageUrl: String,
+    nickname: String,
+    pickup: i8,
+    rank: String,
+    recipeCost: String,
+    recipeDescription: String,
+    recipeId: i32,
+    recipeIndication: String,
+    recipeMaterial: Vec<String>,
+    recipePublishday: String,
+    recipeTitle: String,
+    recipeUrl: String,
+    shop: i8,
+    smallImageUrl: String,
 }

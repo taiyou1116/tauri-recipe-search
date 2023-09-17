@@ -46,7 +46,6 @@ pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
 
     let mut recipes: Vec<Recipe> = Vec::new();
 
-    // 原因categories...21, for...1
     for category in categories {
         let recipe_url = format!("{}{}", config.recipe_url, category.categoryId);
         let response: ApiResponseOfRecipe = reqwest::get(&recipe_url)
@@ -57,13 +56,14 @@ pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
             .map_err(|e| e.to_string())?;
 
         recipes.extend(response.result);
-        // 1秒待機
+        // 1秒待機(apiを受け取る間隔を開ける)
         sleep(Duration::from_secs(1)).await;
     }
 
     Ok(recipes)
 }
 
+// categoryUrlからcategoryIdを作成
 fn get_id_from_url(url: &str) -> String {
     url.rsplit('/').nth(1).unwrap_or_default().to_string()
 }
