@@ -5,10 +5,13 @@ use crate::{
 use tokio::time::{sleep, Duration};
 
 // カテゴリーから魚カテゴリーをフィルタリングする
-fn filter_fish_categories<T: HasNameAndUrl>(categories: &[T]) -> Vec<Category> {
+fn filter_fish_categories<T: HasNameAndUrl>(
+    categories: &[T],
+    category_name: &str,
+) -> Vec<Category> {
     categories
         .iter()
-        .filter(|c| c.category_name().contains("魚"))
+        .filter(|c| c.category_name().contains(category_name))
         .map(|c| Category {
             category_id: get_id_from_url(c.category_url()),
             category_name: c.category_name().to_string(),
@@ -21,17 +24,29 @@ fn get_id_from_url(url: &str) -> String {
     url.rsplit('/').nth(1).unwrap_or_default().to_string()
 }
 
-// ApiResponceOfCategoryからCategoryへの変換
-fn extract_categories_from_responce(responce: &ApiResponseOfCategory) -> Vec<Category> {
+// ApiresponseOfCategoryからCategoryへの変換
+fn extract_categories_from_response(
+    response: &ApiResponseOfCategory,
+    category_name: &str,
+) -> Vec<Category> {
     let mut categories = Vec::new();
-    categories.extend(filter_fish_categories(&responce.result.large));
-    categories.extend(filter_fish_categories(&responce.result.medium));
-    categories.extend(filter_fish_categories(&responce.result.small));
+    categories.extend(filter_fish_categories(
+        &response.result.large,
+        category_name,
+    ));
+    categories.extend(filter_fish_categories(
+        &response.result.medium,
+        category_name,
+    ));
+    categories.extend(filter_fish_categories(
+        &response.result.small,
+        category_name,
+    ));
     categories
 }
 
 #[tauri::command(async)]
-pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
+pub async fn get_category_data(category_name: String) -> Result<Vec<Recipe>, String> {
     let config = config::Config::new();
     let response: ApiResponseOfCategory = reqwest::get(&config.category_url)
         .await
@@ -42,7 +57,7 @@ pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
 
     // キーワードにあったものだけを新しいCategory構造体に格納
 
-    let categories = extract_categories_from_responce(&response);
+    let categories = extract_categories_from_response(&response, &category_name);
 
     let mut recipes: Vec<Recipe> = Vec::new();
 
@@ -58,6 +73,7 @@ pub async fn get_category_data() -> Result<Vec<Recipe>, String> {
         recipes.extend(response.result);
         // 1秒待機(apiを受け取る間隔を開ける)
         sleep(Duration::from_secs(1)).await;
+        println!("{}", "now loading...");
     }
 
     Ok(recipes)

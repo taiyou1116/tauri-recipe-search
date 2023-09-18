@@ -2,6 +2,6 @@ import { Recipe } from "./Recipe";
 
 export type State = {
     recipeList: Recipe[];
-    getRecipeList: () => void,
+    getRecipeList: (categoryName: string) => void,
     selectRecipe: () => void,
 }

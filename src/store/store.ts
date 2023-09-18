@@ -8,11 +8,17 @@ import { Result } from "../types/Result";
 export const useStore = create<State>((set, get) => ({
     recipeList: [],
 
-    getRecipeList: async () => {
-        const result: Result<Recipe[], string> = await invoke("get_category_data");
-        if (typeof result === 'string') return;
+    getRecipeList: async (categoryName: string) => {
+        console.log(categoryName);
+
+        const result: Result<Recipe[], string> = await invoke("get_category_data", { categoryName });
+        if (typeof result === 'string') {
+            console.log("Error: ");
+            return;
+        } 
 
         console.log(result);
+        set({ recipeList: result })
     },
     selectRecipe: () => {
 
