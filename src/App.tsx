@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./App.css";
-import NavigationbarComponent from "./components/Navigationbar";
 import { useStore } from "./store/store";
+
+import NavigationbarComponent from "./components/Navigationbar";
+import RecipeComponent from "./components/Recipe";
 
 export default function App() {
 
@@ -18,8 +20,10 @@ export default function App() {
 
       { recipeList.map((recipe) => (
         <div>
-          <p> { recipe.recipeTitle } </p>
-          <img src={recipe.foodImageUrl} alt="foodImage" />
+          <RecipeComponent 
+            recipeTitle={ recipe.recipeTitle }
+            recipeImg={ recipe.foodImageUrl }
+          />
         </div>
       ))}
     </div>
