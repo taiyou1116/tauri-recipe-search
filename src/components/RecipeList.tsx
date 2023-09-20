@@ -1,7 +1,7 @@
-import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 
 import RecipeComponent from "./Recipe";
+import ModalComponent from "./Modal";
 import { Recipe } from "../types/Recipe";
 
 
@@ -36,17 +36,11 @@ export default function RecipeListComponent(props: RecipeListProps) {
         </div>
       ))}
       
-      {/* Modal */}
-      <Dialog open={isModalOpen} onClose={closeModal}>
-        <Dialog.Overlay />
-        <Dialog.Title>
-          {selectedRecipe?.recipeTitle}
-        </Dialog.Title>
-        <Dialog.Description>
-          {/* Recipe detail がここにくる */}
-        </Dialog.Description>
-        <button onClick={() => closeModal()}>閉じる</button>
-      </Dialog>
+      <ModalComponent 
+        children={selectedRecipe?.recipeTitle}
+        open={isModalOpen}
+        onClose={() => closeModal()}
+      />
     </div>
   )  
 }
