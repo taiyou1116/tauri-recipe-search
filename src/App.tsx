@@ -11,7 +11,7 @@ export default function App() {
   const recipeList = useStore((store) => store.recipeList);
   const onGetRecipeData = useStore((store) => store.getRecipeList);
   const selectedRecipe = useStore((store) => store.selectedRecipe);
-  const selectRecipe = useStore((store) => store.selectRecipe);
+  const onSelectRecipe = useStore((store) => store.selectRecipe);
 
   return (
     <div>
@@ -24,7 +24,7 @@ export default function App() {
       <RecipeListComponent 
         recipeList={recipeList}
         selectedRecipe={selectedRecipe}
-        selectRecipe={selectRecipe}
+        selectRecipe={onSelectRecipe}
       />
     </div>
   )
