@@ -19,7 +19,9 @@ export const useStore = create<State>((set, get) => ({
 
         set({ recipeList: result })
     },
-    selectRecipe: () => {
-
+    
+    selectedRecipe: null,
+    selectRecipe: (recipe: Recipe) => {
+        set({ selectedRecipe: recipe })
     },
 }))

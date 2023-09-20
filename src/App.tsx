@@ -8,8 +8,10 @@ export default function App() {
 
   const [categoryName, setCategoryName] = useState("");
 
-  const onGetRecipeData = useStore((store) => store.getRecipeList);
   const recipeList = useStore((store) => store.recipeList);
+  const onGetRecipeData = useStore((store) => store.getRecipeList);
+  const selectedRecipe = useStore((store) => store.selectedRecipe);
+  const selectRecipe = useStore((store) => store.selectRecipe);
 
   return (
     <div>
@@ -21,6 +23,8 @@ export default function App() {
 
       <RecipeListComponent 
         recipeList={recipeList}
+        selectedRecipe={selectedRecipe}
+        selectRecipe={selectRecipe}
       />
     </div>
   )
