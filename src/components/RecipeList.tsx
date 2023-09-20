@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import RecipeComponent from "./Recipe";
 import ModalComponent from "./Modal";
+import RecipeDetailsComponent from "./RecipeDetails";
 import { Recipe } from "../types/Recipe";
 
 
@@ -37,7 +38,8 @@ export default function RecipeListComponent(props: RecipeListProps) {
       ))}
       
       <ModalComponent 
-        children={selectedRecipe?.recipeTitle}
+        // childrenにDetailを渡す
+        children={<RecipeDetailsComponent recipe={selectedRecipe}/>}
         open={isModalOpen}
         onClose={() => closeModal()}
       />
