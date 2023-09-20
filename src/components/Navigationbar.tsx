@@ -1,23 +1,29 @@
 
+type Props = {
+  categoryName: string;
+  setCategoryName: React.Dispatch<React.SetStateAction<string>>;
+  onGetRecipeData: (name: string) => void,
+}
 
+export default function NavigationbarComponent(props: Props) {
+  const { categoryName, setCategoryName, onGetRecipeData } = props;
 
-export default function NavigationbarComponent() {
-
-    function getRecipeFromSearch() {
-        
-    }
-
-    return (
+  return (
     <div>
-      <h1>Recipe Search</h1>
-      <nav>
-        <ul>
-          <li><a href="#home" style={{ color: 'white' }}>ホーム</a></li>
-          <li><a href="#about" style={{ color: 'white' }}>アバウト</a></li>
-          <li><a href="#contact" style={{ color: 'white' }}>コンタクト</a></li>
-          <li><input type="text" placeholder="search recipe" onChange={() => getRecipeFromSearch()}/></li>
-        </ul>
-      </nav>
+      <h1 className="font-bold">Recipe Search</h1>
+      <input 
+        type="text" 
+        placeholder="input category name" 
+        value={categoryName}
+        onChange={(e) => setCategoryName(e.target.value)}
+        className="border p-2 rounded w-full focus:outline-none focus:border-blue-500"
+      />
+      <button 
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+        onClick={() => onGetRecipeData(categoryName)}
+      >
+        検索
+      </button>
     </div>
-    )
+  );
 }

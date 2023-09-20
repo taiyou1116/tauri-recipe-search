@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import { useStore } from "./store/store";
 
 import NavigationbarComponent from "./components/Navigationbar";
@@ -14,9 +13,11 @@ export default function App() {
 
   return (
     <div>
-      <NavigationbarComponent />
-      <input type="text" placeholder="input category name" onChange={(name) => setCategoryName(name.target.value)}/>
-      <button onClick={() => onGetRecipeData(categoryName)}/>
+      <NavigationbarComponent
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
+        onGetRecipeData={onGetRecipeData}
+      />
 
       { recipeList.map((recipe) => (
         <div>

@@ -17,7 +17,6 @@ export const useStore = create<State>((set, get) => ({
             return;
         } 
 
-        console.log(result);
         set({ recipeList: result })
     },
     selectRecipe: () => {
