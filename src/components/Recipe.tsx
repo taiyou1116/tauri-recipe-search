@@ -1,7 +1,7 @@
+
 type RecipeProps = {
     recipeTitle: string,
     recipeImg: string,
-
 }
 
 export default function RecipeComponent(props: RecipeProps) {

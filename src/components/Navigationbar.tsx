@@ -1,11 +1,11 @@
 
-type Props = {
+type NavigationProps = {
   categoryName: string;
   setCategoryName: React.Dispatch<React.SetStateAction<string>>;
   onGetRecipeData: (name: string) => void,
 }
 
-export default function NavigationbarComponent(props: Props) {
+export default function NavigationbarComponent(props: NavigationProps) {
   const { categoryName, setCategoryName, onGetRecipeData } = props;
 
   return (

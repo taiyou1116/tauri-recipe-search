@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useStore } from "./store/store";
 
 import NavigationbarComponent from "./components/Navigationbar";
-import RecipeComponent from "./components/Recipe";
+import RecipeListComponent from "./components/RecipeList";
 
 export default function App() {
 
@@ -19,14 +19,9 @@ export default function App() {
         onGetRecipeData={onGetRecipeData}
       />
 
-      { recipeList.map((recipe) => (
-        <div>
-          <RecipeComponent 
-            recipeTitle={ recipe.recipeTitle }
-            recipeImg={ recipe.foodImageUrl }
-          />
-        </div>
-      ))}
+      <RecipeListComponent 
+        recipeList={recipeList}
+      />
     </div>
   )
 }

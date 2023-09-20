@@ -1,9 +1,22 @@
-// import { useStore } from "../store/store";
 
-// import RecipeComponent from "./Recipe";
+import RecipeComponent from "./Recipe";
+import { Recipe } from "../types/Recipe";
 
-// export default function RecipeListComponent() {
+type RecipeListProps = {
+    recipeList: Recipe[];
+}
 
+export default function RecipeListComponent(props: RecipeListProps) {
+    const { recipeList } = props;
 
-    
-// }
+  return (
+    <div>
+      { recipeList.map((recipe) => (
+        <RecipeComponent key={recipe.recipeId}
+          recipeTitle={ recipe.recipeTitle }
+          recipeImg={ recipe.foodImageUrl }
+        />
+      ))}
+    </div>
+  )  
+}
