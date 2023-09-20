@@ -5,12 +5,9 @@ mod api_structs;
 mod commands;
 mod config;
 
-#[tokio::main]
-async fn main() -> Result<(), reqwest::Error> {
+fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![commands::get_category_data])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-
-    Ok(())
 }
