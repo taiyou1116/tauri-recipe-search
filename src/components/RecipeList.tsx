@@ -29,12 +29,12 @@ export default function RecipeListComponent(props: RecipeListProps) {
   return (
     <div className="grid grid-cols-3 gap-4 h-[800px] overflow-y-auto">
       { recipeList.map((recipe) => (
-        <div onClick={() => openModal(recipe)}>
-          <RecipeComponent
-            recipeTitle={ recipe.recipeTitle }
-            recipeImg={ recipe.foodImageUrl }
-          />
-        </div>
+        <RecipeComponent
+          recipeTitle={ recipe.recipeTitle }
+          recipeImg={ recipe.foodImageUrl }
+          onClick={() => openModal(recipe)}
+          key={recipe.recipeId}
+        />
       ))}
       
       <ModalComponent 

@@ -1,14 +1,17 @@
-
 type RecipeProps = {
     recipeTitle: string,
     recipeImg: string,
+    onClick: () => void,
 }
 
 export default function RecipeComponent(props: RecipeProps) {
-    const { recipeTitle, recipeImg } = props;
+    const { recipeTitle, recipeImg, onClick } = props;
 
   return (
-    <div className="flex flex-col bg-slate-400 p-4 rounded">
+    <div 
+      className="flex flex-col bg-slate-400 p-4 rounded" 
+      onClick={() => onClick()}
+    >
       <h1 className="text-xl font-semibold mb-4">{recipeTitle}</h1>
       <div className="relative h-60">
         <img 
