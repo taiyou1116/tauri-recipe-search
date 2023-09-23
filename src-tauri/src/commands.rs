@@ -1,5 +1,5 @@
 use crate::{
-    api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl, Recipe},
+    api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl},
     config,
 };
 use std::collections::HashSet;
