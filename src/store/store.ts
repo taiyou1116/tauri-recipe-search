@@ -9,6 +9,7 @@ export const useStore = create<State>((set, get) => ({
     recipeList: [],
 
     getRecipeList: async (categoryName: string) => {
+        set({ recipeList: [] })
         console.log(categoryName);
 
         const result: Result<void, string> = await invoke("get_category_data", { categoryName });
