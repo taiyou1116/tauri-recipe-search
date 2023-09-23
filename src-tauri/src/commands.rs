@@ -7,8 +7,8 @@ use tauri::Window;
 use tokio::sync::mpsc;
 use tokio::time::{sleep, Duration};
 
-// カテゴリーから魚カテゴリーをフィルタリングする
-fn filter_fish_categories<T: HasNameAndUrl>(
+// カテゴリーから特定のカテゴリーをフィルタリングする
+fn filter_specific_categories<T: HasNameAndUrl>(
     categories: &[T],
     category_name: &str,
 ) -> Vec<Category> {
@@ -34,15 +34,15 @@ fn extract_categories_from_response(
 ) -> Vec<Category> {
     let mut categories = Vec::new();
 
-    categories.extend(filter_fish_categories(
+    categories.extend(filter_specific_categories(
         &response.result.large,
         category_name,
     ));
-    categories.extend(filter_fish_categories(
+    categories.extend(filter_specific_categories(
         &response.result.medium,
         category_name,
     ));
-    categories.extend(filter_fish_categories(
+    categories.extend(filter_specific_categories(
         &response.result.small,
         category_name,
     ));
