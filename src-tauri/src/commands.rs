@@ -1,5 +1,5 @@
 use crate::{
-    api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl, Recipe},
+    api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl},
     config,
 };
 use tauri::Window;
@@ -73,7 +73,6 @@ pub async fn get_category_data(category_name: String, window: Window) -> Result<
 
             // チャネルを通じてレシピを送信
             if let Err(_) = tx.send(response.result).await {
-                println!("Receiver dropped");
                 return;
             }
 
@@ -85,7 +84,6 @@ pub async fn get_category_data(category_name: String, window: Window) -> Result<
     // メイン関数で受信と処理
     while let Some(recipes) = rx.recv().await {
         // ここで受信したレシピを処理
-        println!("Received recipes: {:?}", recipes);
         let js_command = format!(
             "window.receiveRecipes({})",
             serde_json::to_string(&recipes).unwrap()
