@@ -2,6 +2,8 @@ use crate::{
     api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl, Recipe},
     config,
 };
+use tauri::Window;
+use tokio::sync::mpsc;
 use tokio::time::{sleep, Duration};
 
 // カテゴリーから魚カテゴリーをフィルタリングする
@@ -46,35 +48,50 @@ fn extract_categories_from_response(
 }
 
 #[tauri::command(async)]
-pub async fn get_category_data(category_name: String) -> Result<Vec<Recipe>, String> {
-    let config = config::Config::new();
-    let response: ApiResponseOfCategory = reqwest::get(&config.category_url)
-        .await
-        .map_err(|e| e.to_string())?
-        .json()
-        .await
-        .map_err(|e| e.to_string())?;
+pub async fn get_category_data(category_name: String, window: Window) -> Result<(), String> {
+    let (tx, mut rx) = mpsc::channel(32); // 32はバッファサイズ
 
-    // キーワードにあったものだけを新しいCategory構造体に格納
-
-    let categories = extract_categories_from_response(&response, &category_name);
-
-    let mut recipes: Vec<Recipe> = Vec::new();
-
-    for category in categories {
-        let recipe_url = format!("{}{}", config.recipe_url, category.category_id);
-        let response: ApiResponseOfRecipe = reqwest::get(&recipe_url)
+    tokio::spawn(async move {
+        let config = config::Config::new();
+        let response: ApiResponseOfCategory = reqwest::get(&config.category_url)
             .await
-            .map_err(|e| e.to_string())?
+            .unwrap()
             .json()
             .await
-            .map_err(|e| e.to_string())?;
+            .unwrap();
 
-        recipes.extend(response.result);
-        // 1秒待機(apiを受け取る間隔を開ける)
-        sleep(Duration::from_secs(1)).await;
-        println!("{}", "now loading...");
+        let categories = extract_categories_from_response(&response, &category_name);
+
+        for category in categories {
+            let recipe_url = format!("{}{}", config.recipe_url, category.category_id);
+            let response: ApiResponseOfRecipe = reqwest::get(&recipe_url)
+                .await
+                .unwrap()
+                .json()
+                .await
+                .unwrap();
+
+            // チャネルを通じてレシピを送信
+            if let Err(_) = tx.send(response.result).await {
+                println!("Receiver dropped");
+                return;
+            }
+
+            // 1秒待機
+            sleep(Duration::from_secs(1)).await;
+        }
+    });
+
+    // メイン関数で受信と処理
+    while let Some(recipes) = rx.recv().await {
+        // ここで受信したレシピを処理
+        println!("Received recipes: {:?}", recipes);
+        let js_command = format!(
+            "window.receiveRecipes({})",
+            serde_json::to_string(&recipes).unwrap()
+        );
+        window.eval(&js_command).unwrap();
     }
 
-    Ok(recipes)
+    Ok(())
 }
