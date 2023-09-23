@@ -1,16 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "./store/store";
 
 import NavigationbarComponent from "./components/Navigationbar";
 import RecipeListComponent from "./components/RecipeList";
-
-// 独自のWindowインターフェイスを定義する
-interface MyWindow extends Window {
-  receiveRecipes: (recipes: any) => void;
-}
-
-// グローバルなwindowオブジェクトを上書きする
-declare let window: MyWindow;
 
 export default function App() {
 
@@ -21,10 +13,19 @@ export default function App() {
   const selectedRecipe = useStore((store) => store.selectedRecipe);
   const onSelectRecipe = useStore((store) => store.selectRecipe);
 
-  window.receiveRecipes = function(recipes) {
-    console.log("Received recipes:", recipes);
-    // 受け取ったレシピを何らかの処理する
-  };
+  useEffect(() => {
+    window.receiveRecipes = function(recipes) {
+      console.log("Received recipes:", recipes);
+      useStore.setState((state) => ({
+        recipeList: [...state.recipeList, ...recipes],
+      }));
+    };
+
+    // クリーンアップ関数：コンポーネントのアンマウント時に実行
+    return () => {
+      window.receiveRecipes = null;
+    };
+  }, []);
 
   return (
     <div>
