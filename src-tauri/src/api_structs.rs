@@ -105,7 +105,7 @@ pub struct Recipe {
     #[serde(rename = "recipeDescription")]
     recipe_description: String,
     #[serde(rename = "recipeId")]
-    recipe_id: i32,
+    pub recipe_id: i32,
     #[serde(rename = "recipeIndication")]
     recipe_indication: String,
     #[serde(rename = "recipeMaterial")]

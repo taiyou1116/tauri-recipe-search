@@ -1,5 +1,5 @@
 use crate::{
-    api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl},
+    api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl, Recipe},
     config,
 };
 use std::collections::HashSet;
@@ -33,7 +33,6 @@ fn extract_categories_from_response(
     category_name: &str,
 ) -> Vec<Category> {
     let mut categories = Vec::new();
-    let mut seen = HashSet::new();
 
     categories.extend(filter_fish_categories(
         &response.result.large,
@@ -84,12 +83,22 @@ pub async fn get_category_data(category_name: String, window: Window) -> Result<
         }
     });
 
+    let mut seen = HashSet::new();
+
     // メイン関数で受信と処理
     while let Some(recipes) = rx.recv().await {
+        // 重複を見てあげる
+        let mut new_recipes = Vec::new();
+        for recipe in recipes {
+            if seen.insert(recipe.recipe_id.clone()) {
+                new_recipes.push(recipe);
+            }
+        }
+
         // ここで受信したレシピを処理
         let js_command = format!(
             "window.receiveRecipes({})",
-            serde_json::to_string(&recipes).unwrap()
+            serde_json::to_string(&new_recipes).unwrap()
         );
         window.eval(&js_command).unwrap();
     }
