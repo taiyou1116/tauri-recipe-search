@@ -2,6 +2,7 @@ use crate::{
     api_structs::{ApiResponseOfCategory, ApiResponseOfRecipe, Category, HasNameAndUrl},
     config,
 };
+use std::collections::HashSet;
 use tauri::Window;
 use tokio::sync::mpsc;
 use tokio::time::{sleep, Duration};
@@ -32,6 +33,8 @@ fn extract_categories_from_response(
     category_name: &str,
 ) -> Vec<Category> {
     let mut categories = Vec::new();
+    let mut seen = HashSet::new();
+
     categories.extend(filter_fish_categories(
         &response.result.large,
         category_name,
