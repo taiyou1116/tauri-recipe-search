@@ -35,7 +35,6 @@ export default function ModalComponent(props: ModalProps) {
           >
             <div className="fixed flex inset-0 items-center justify-center p-4">
                 <Dialog.Panel className="bg-gray-50 dark:bg-slate-600 dark:text-white p-6 rounded-md shadow-md">
-                  {/* <Dialog.Title className="mb-4 font-medium">{title}</Dialog.Title> */}
                   {children}
                 </Dialog.Panel>
             </div>
