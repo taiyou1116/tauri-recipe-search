@@ -12,9 +12,7 @@ export const useStore = create<State>((set, get) => ({
         set({ recipeList: [] })
         console.log(categoryName);
 
-        const categoryNames = categoryName.split(" ");
-
-        const result: Result<void, string> = await invoke("get_category_data", { categoryNames });
+        const result: Result<void, string> = await invoke("get_category_data", { categoryName });
         if (typeof result === 'string') {
             console.log("Error: Rustからのデータの受け取りでエラーが発生しました");
             return;
