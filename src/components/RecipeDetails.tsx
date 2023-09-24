@@ -31,6 +31,7 @@ export default function RecipeDetailsComponent(props: RecipeDetailsProps) {
         </ul>
         <ButtonComponent 
           title="作り方はこちら"
+          onClick={() => openExternalLink()}
         />
       </div>
     )
