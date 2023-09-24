@@ -1,4 +1,5 @@
 import ButtonComponent from "./Button";
+import InputComponent from "./Input";
 
 type NavigationProps = {
   categoryName: string;
@@ -15,23 +16,32 @@ export default function NavigationbarComponent(props: NavigationProps) {
   }
 
   return (
-    <div className="p-4 bg-blue-100 shadow-lg relative flex items-center z-10">
+    <div className="p-5 bg-blue-100 shadow-lg relative flex items-center z-10">
       <h1 className="font-bold text-2xl absolute left-1/2 transform -translate-x-1/2">
         レシピ検索アプリ
       </h1>
-      <form onSubmit={handleSubmit} className="ml-auto flex flex-row gap-2 h-8">
-        <input 
-          type="text" 
-          placeholder="キーワード入力" 
-          value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
-          className="border p-2 rounded-md 
-                     focus:outline-none focus:ring focus:ring-blue-500
-                     transition-shadow duration-200 shadow-md"
-        />
-        <ButtonComponent 
+      <form onSubmit={handleSubmit} className="ml-auto flex flex-row gap-2">
+        <div>
+          <p>カテゴリ</p>
+          <InputComponent 
+            placeholder="例: 中華"
+            value={ categoryName }
+            onChange={(e) => setCategoryName(e.target.value)}
+          />
+        </div>
+        <div>
+          <p>材料</p>
+          <InputComponent 
+            placeholder="例: 肉 ピーマン"
+            value={ categoryName }
+            onChange={(e) => setCategoryName(e.target.value)}
+          />
+        </div>
+        <div className="mt-6">
+          <ButtonComponent 
           title="検索"
         />
+        </div>
       </form>
     </div>
   );
