@@ -38,7 +38,6 @@ export default function RecipeListComponent(props: RecipeListProps) {
       ))}
       
       <ModalComponent 
-        // childrenにDetailを渡す
         children={<RecipeDetailsComponent recipe={selectedRecipe}/>}
         open={isModalOpen}
         onClose={() => closeModal()}
