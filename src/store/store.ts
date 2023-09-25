@@ -29,15 +29,20 @@ export const useStore = create<State>((set, get) => ({
             return;
         }
 
-        // set({ showRecipeList: [] })
+        set({ showRecipeList: [] })
         const materialNamesArray = materialName.split(' ');
 
         recipeList.map((recipe) => {
-            const doesNotMatch = recipe.recipeMaterial.some((material) => {
-                return materialNamesArray.some((oneMaterial) => oneMaterial !== material);
+            // `every` メソッドを使用して、materialNamesArray の各 "文字列" が
+            // recipe.recipeMaterial のいずれかの "文字列" に部分一致するか確認
+            const doesMatch = materialNamesArray.every((oneMaterial) => {
+                return recipe.recipeMaterial.some((recipeMaterial) => {
+                    return recipeMaterial.includes(oneMaterial);
+                });
             });
-    
-            if (!doesNotMatch) {
+        
+            // 全ての要素(文字の部分一致)が含まれている場合、showRecipeList に追加
+            if (doesMatch) {
                 set((state) => ({
                     showRecipeList: [...state.showRecipeList, recipe]
                 }));
