@@ -622,12 +622,44 @@ video {
   max-height: 20rem;
 }
 
+.max-h-\[100px\] {
+  max-height: 100px;
+}
+
+.max-h-\[100\] {
+  max-height: 100;
+}
+
+.max-h-\[50\] {
+  max-height: 50;
+}
+
+.max-h-\[50px\] {
+  max-height: 50px;
+}
+
+.max-h-\[10px\] {
+  max-height: 10px;
+}
+
+.max-h-\[1000px\] {
+  max-height: 1000px;
+}
+
+.max-h-\[200px\] {
+  max-height: 200px;
+}
+
 .w-auto {
   width: auto;
 }
 
 .w-full {
   width: 100%;
+}
+
+.max-w-\[200px\] {
+  max-width: 200px;
 }
 
 .-translate-x-1\/2 {

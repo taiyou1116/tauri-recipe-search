@@ -27,7 +27,7 @@ export default function RecipeDetailsComponent(props: RecipeDetailsProps) {
           className="h-60 w-auto object-contain"
         />
         <ul className="list-disc pl-5">
-          { recipe?.recipeMaterial.map((material) => <li>{material}</li>) }
+          { recipe?.recipeMaterial.map((material, index) => <li key={index}>{material}</li>) }
         </ul>
         <ButtonComponent 
           title="作り方はこちら"
