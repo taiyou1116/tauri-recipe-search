@@ -9,7 +9,7 @@ export default function RecipeComponent(props: RecipeProps) {
 
   return (
     <div 
-      className="flex flex-col bg-sky-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg"
+      className="flex flex-col bg-sky-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg max-h-80"
       onClick={() => onClick()}
     >
       <h1 className="text-xl font-semibold mb-4">{recipeTitle}</h1>

@@ -34,7 +34,7 @@ export default function NavigationbarComponent(props: NavigationProps) {
         <div>
           <p>材料</p>
           <InputComponent 
-            placeholder="例: 肉 ピーマン"
+            placeholder="例: 豚肉 ピーマン"
             value={ materialName }
             onChange={(e) => setMaterialName(e.target.value)}
           />
