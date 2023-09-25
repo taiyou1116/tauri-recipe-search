@@ -27,7 +27,7 @@ export default function RecipeListComponent(props: RecipeListProps) {
     }
 
   return (
-    <div className="grid grid-cols-3 gap-4 h-[820px] overflow-y-auto p-2">
+    <div className="grid grid-cols-3 content-start gap-4 h-[820px] overflow-y-auto p-2">
       { showRecipeList.map((recipe) => (
         <RecipeComponent
           recipeTitle={ recipe.recipeTitle }

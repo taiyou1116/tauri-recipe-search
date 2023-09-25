@@ -24,7 +24,7 @@ export default function RecipeDetailsComponent(props: RecipeDetailsProps) {
         <img 
           src={ recipe?.foodImageUrl } 
           alt="料理の画像"
-          className="h-60 w-auto"
+          className="h-60 w-auto object-contain"
         />
         <ul className="list-disc pl-5">
           { recipe?.recipeMaterial.map((material) => <li>{material}</li>) }

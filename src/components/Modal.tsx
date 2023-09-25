@@ -33,7 +33,7 @@ export default function ModalComponent(props: ModalProps) {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="fixed flex inset-0 items-center justify-center p-4">
+            <div className="fixed flex inset-0 items-center justify-center p-4 z-20">
                 <Dialog.Panel className="bg-gray-50 dark:bg-slate-600 dark:text-white p-6 rounded-md shadow-md">
                   {children}
                 </Dialog.Panel>

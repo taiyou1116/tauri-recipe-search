@@ -26,6 +26,7 @@ export const useStore = create<State>((set, get) => ({
         // 材料がない場合は全てのカテゴリレシピを表示
         if (materialName === "") {
             set({ showRecipeList: recipeList })
+            console.log("着てる");
             return;
         }
 
