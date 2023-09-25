@@ -7,13 +7,13 @@ import { Recipe } from "../types/Recipe";
 
 
 type RecipeListProps = {
-    recipeList: Recipe[];
+    showRecipeList: Recipe[];
     selectedRecipe: Recipe | null,
     selectRecipe: (recipe: Recipe) => void,
 }
 
 export default function RecipeListComponent(props: RecipeListProps) {
-    const { recipeList, selectedRecipe, selectRecipe } = props;
+    const { showRecipeList, selectedRecipe, selectRecipe } = props;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,7 +28,7 @@ export default function RecipeListComponent(props: RecipeListProps) {
 
   return (
     <div className="grid grid-cols-3 gap-4 h-[820px] overflow-y-auto p-2">
-      { recipeList.map((recipe) => (
+      { showRecipeList.map((recipe) => (
         <RecipeComponent
           recipeTitle={ recipe.recipeTitle }
           recipeImg={ recipe.foodImageUrl }

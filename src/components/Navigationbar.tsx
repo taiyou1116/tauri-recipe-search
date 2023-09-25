@@ -5,10 +5,12 @@ type NavigationProps = {
   categoryName: string;
   setCategoryName: React.Dispatch<React.SetStateAction<string>>;
   onGetRecipeData: (name: string) => void,
+  materialName: string,
+  setMaterialName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function NavigationbarComponent(props: NavigationProps) {
-  const { categoryName, setCategoryName, onGetRecipeData } = props;
+  const { categoryName, setCategoryName, onGetRecipeData, materialName, setMaterialName } = props;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -33,8 +35,8 @@ export default function NavigationbarComponent(props: NavigationProps) {
           <p>材料</p>
           <InputComponent 
             placeholder="例: 肉 ピーマン"
-            value={ categoryName }
-            onChange={(e) => setCategoryName(e.target.value)}
+            value={ materialName }
+            onChange={(e) => setMaterialName(e.target.value)}
           />
         </div>
         <div className="mt-6">

@@ -7,9 +7,11 @@ import RecipeListComponent from "./components/RecipeList";
 export default function App() {
 
   const [categoryName, setCategoryName] = useState("");
+  const [materialName, setMaterialName] = useState("");
 
-  const recipeList = useStore((store) => store.recipeList);
+  const showRecipeList = useStore((store) => store.showRecipeList);
   const onGetRecipeData = useStore((store) => store.getRecipeList);
+  const onGetDataMatchingMaterial = useStore((store) => store.GetDataMatchingMaterial);
   const selectedRecipe = useStore((store) => store.selectedRecipe);
   const onSelectRecipe = useStore((store) => store.selectRecipe);
 
@@ -19,6 +21,8 @@ export default function App() {
       useStore.setState((state) => ({
         recipeList: [...state.recipeList, ...recipes],
       }));
+      // ここで処理
+      onGetDataMatchingMaterial(materialName);
     };
 
     // クリーンアップ関数：コンポーネントのアンマウント時に実行
@@ -27,16 +31,22 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    onGetDataMatchingMaterial(materialName);
+  }, [materialName])
+
   return (
     <div>
       <NavigationbarComponent
         categoryName={categoryName}
         setCategoryName={setCategoryName}
         onGetRecipeData={onGetRecipeData}
+        materialName={materialName}
+        setMaterialName={setMaterialName}
       />
 
       <RecipeListComponent 
-        recipeList={recipeList}
+        showRecipeList={showRecipeList}
         selectedRecipe={selectedRecipe}
         selectRecipe={onSelectRecipe}
       />

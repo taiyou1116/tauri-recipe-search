@@ -18,6 +18,32 @@ export const useStore = create<State>((set, get) => ({
             return;
         }
     },
+
+    showRecipeList: [],
+    GetDataMatchingMaterial: (materialName: string) => {
+        const recipeList = get().recipeList;
+
+        // 材料がない場合は全てのカテゴリレシピを表示
+        if (materialName === "") {
+            set({ showRecipeList: recipeList })
+            return;
+        }
+
+        // set({ showRecipeList: [] })
+        const materialNamesArray = materialName.split(' ');
+
+        recipeList.map((recipe) => {
+            const doesNotMatch = recipe.recipeMaterial.some((material) => {
+                return materialNamesArray.some((oneMaterial) => oneMaterial !== material);
+            });
+    
+            if (!doesNotMatch) {
+                set((state) => ({
+                    showRecipeList: [...state.showRecipeList, recipe]
+                }));
+            }
+        });
+    },
     
     selectedRecipe: null,
     selectRecipe: (recipe: Recipe) => {
