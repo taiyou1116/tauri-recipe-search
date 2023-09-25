@@ -10,7 +10,6 @@ export const useStore = create<State>((set, get) => ({
 
     getRecipeList: async (categoryName: string) => {
         set({ recipeList: [] })
-        console.log(categoryName);
 
         const result: Result<void, string> = await invoke("get_category_data", { categoryName });
         if (typeof result === 'string') {
@@ -26,10 +25,8 @@ export const useStore = create<State>((set, get) => ({
         // 材料がない場合は全てのカテゴリレシピを表示
         if (materialName === "") {
             set({ showRecipeList: recipeList })
-            console.log("着てる");
             return;
         }
-
         set({ showRecipeList: [] })
         const materialNamesArray = materialName.split(' ');
 

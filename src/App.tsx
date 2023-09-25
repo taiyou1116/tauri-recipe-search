@@ -17,7 +17,6 @@ export default function App() {
 
   useEffect(() => {
     window.receiveRecipes = function(recipes) {
-      console.log("Received recipes:", recipes);
       useStore.setState((state) => ({
         recipeList: [...state.recipeList, ...recipes],
       }));
@@ -29,7 +28,7 @@ export default function App() {
     return () => {
       window.receiveRecipes = null;
     };
-  }, []);
+  }, [materialName]);
 
   useEffect(() => {
     onGetDataMatchingMaterial(materialName);

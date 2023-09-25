@@ -22,7 +22,7 @@ export default function NavigationbarComponent(props: NavigationProps) {
       <h1 className="font-bold text-2xl absolute left-1/2 transform -translate-x-1/2">
         レシピ検索アプリ
       </h1>
-      <form onSubmit={handleSubmit} className="ml-auto flex flex-row gap-2">
+      <form onSubmit={(e) => handleSubmit(e)} className="ml-auto flex flex-row gap-2">
         <div>
           <p>カテゴリ</p>
           <InputComponent 
