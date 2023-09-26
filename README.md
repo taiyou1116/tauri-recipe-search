@@ -6,7 +6,7 @@
 ## スクリーンショット
 
 <p float="left">
-  <img src="./src/assets/recipe_img_01.png" width="400" />
+  <img src="./src/assets/recipe_img_01.png" width="400" style="margin-right: 10px;"/>
   <img src="./src/assets/recipe_img_02.png" width="400" /> 
 </p>
 
