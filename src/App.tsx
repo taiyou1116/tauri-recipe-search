@@ -3,6 +3,7 @@ import { useStore } from "./store/store";
 
 import NavigationbarComponent from "./components/Navigationbar";
 import RecipeListComponent from "./components/RecipeList";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
 
@@ -48,6 +49,14 @@ export default function App() {
         showRecipeList={showRecipeList}
         selectedRecipe={selectedRecipe}
         selectRecipe={onSelectRecipe}
+      />
+
+      {/* どのように通知を出すか */}
+      <Toaster
+        position="top-left"
+        toastOptions={{
+          className:'bg-gray-50 dark:bg-slate-600 dark:text-white rounded-md shadow-md'
+        }}
       />
     </div>
   )

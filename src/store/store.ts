@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api";
+import toast from "react-hot-toast";
 
 import { State } from "../types/State";
 import { Recipe } from "../types/Recipe";
@@ -11,9 +12,20 @@ export const useStore = create<State>((set, get) => ({
     getRecipeList: async (categoryName: string) => {
         set({ recipeList: [] })
 
-        const result: Result<void, string> = await invoke("get_category_data", { categoryName });
+        const invokePromise: Promise<Result<void, string>> = invoke("get_category_data", { categoryName });
+        
+        toast.promise(
+          invokePromise,
+          {
+            loading: 'レシピデータを取得中...',
+            success: 'レシピデータを正常に取得しました',
+            error: 'レシピデータの取得に失敗しました'
+          }
+        );
+
+        const result: Result<void, string> = await invokePromise; // 変数に格納したPromiseをawaitで解決
         if (typeof result === 'string') {
-            console.log("Error: Rustからのデータの受け取りでエラーが発生しました");
+            console.log("Error: " + result);
             return;
         }
     },
