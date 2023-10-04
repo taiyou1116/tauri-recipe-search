@@ -94,13 +94,7 @@ pub async fn get_category_data(category_name: String, window: Window) -> Result<
                 new_recipes.push(recipe);
             }
         }
-
-        // ここで受信したレシピを処理
-        let js_command = format!(
-            "window.receiveRecipes({})",
-            serde_json::to_string(&new_recipes).unwrap()
-        );
-        window.eval(&js_command).unwrap();
+        window.emit("receive_recipes", &new_recipes).unwrap();
     }
 
     Ok(())

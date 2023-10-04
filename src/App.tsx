@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useStore } from "./store/store";
+import { listen } from "@tauri-apps/api/event";
+import { Toaster } from "react-hot-toast";
 
 import NavigationbarComponent from "./components/Navigationbar";
 import RecipeListComponent from "./components/RecipeList";
-import { Toaster } from "react-hot-toast";
+import { Recipe } from "./types/Recipe";
 
 export default function App() {
 
@@ -17,17 +19,35 @@ export default function App() {
   const onSelectRecipe = useStore((store) => store.selectRecipe);
 
   useEffect(() => {
-    window.receiveRecipes = function(recipes) {
-      useStore.setState((state) => ({
-        recipeList: [...state.recipeList, ...recipes],
-      }));
-      // ここで処理
-      onGetDataMatchingMaterial(materialName);
-    };
-
+    let already_unmounted = false; // マウントされた瞬間にアンマウントされる場合があるため用意
+    let unlisten: () => void = () => {};
+    
+    (async () => {
+      const unlsn = await listen<Recipe[]>(
+        "receive_recipes",
+        (event) => {
+          let recipes = event.payload;
+          useStore.setState((state) => ({
+            recipeList: [...state.recipeList, ...recipes],
+          }));
+          // ここで処理
+          onGetDataMatchingMaterial(materialName);
+        });
+    
+      if (already_unmounted) {
+        unlsn();
+      } else {
+        unlisten = unlsn;
+      }
+    })();
+    
     // クリーンアップ関数：コンポーネントのアンマウント時に実行
     return () => {
-      window.receiveRecipes = null;
+  
+      already_unmounted = true;
+    
+      // イベントリッスン終了
+      unlisten();
     };
   }, [materialName]);
 
