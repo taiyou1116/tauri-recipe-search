@@ -30,7 +30,7 @@ export default function App() {
           useStore.setState((state) => ({
             recipeList: [...state.recipeList, ...recipes],
           }));
-          // ここで処理
+          // materialの素材に合うものを表示
           onGetDataMatchingMaterial(materialName);
         });
     
